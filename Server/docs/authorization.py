@@ -3,7 +3,7 @@ from . import param
 AUTHORIZATION_POST = {
     'tags': ['Authorization'],
     'parameters': [
-        param('usedId', "user's ID"),
+        param('userId', "user's ID"),
         param('password', "비밀번호")
     ],
     'responses': {
