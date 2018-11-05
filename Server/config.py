@@ -33,6 +33,14 @@ class Config:
             {
                 'name': 'Icon',
                 'description': '각 부스별 고유 QR코드 부여에 관한 API'
+            },
+            {
+                'name': 'Authorization',
+                'description': '로그인 및 회원가입에 관한 API'
+            },
+            {
+                'name': 'SerialNumber',
+                'description': '플레이어가 게임에 참여할 때 사용되는 인증 코드를 발급하는 API'
             }
         ]
     }
