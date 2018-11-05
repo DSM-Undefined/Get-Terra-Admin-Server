@@ -10,10 +10,8 @@ AUTHORIZATION_POST = {
         '201': {
             'description': "JWT 반환 성공",
             "example": {
-                "": {
-                    "access_token": "dkAhffkDkanxmsJWTzhemdla",
-                    "refresh_token": "flvmfptlxhzms"
-                }
+                "access_token": "dkAhffkDkanxmsJWTzhemdla",
+                "refresh_token": "flvmfptlxhzms"
             }
         },
         '401': {

@@ -54,17 +54,17 @@ PROBLEM_PUT = {
         {
             'name': 'alter',
             'description': """수정할 내용(객관식인 경우에만 choices 사용)\n{
-                        "number": "수정할 문항의 번호",
-                        "question": "수정할 문제",
-                        "answer": "수정할 정답",
-                        "type": "(1: 객관식, 2: OX문제)",
-                        "choices": {
-                            "first": "수정할 1번 선택문",
-                            "second": "수정할 2번 선택문",
-                            "third": "수정할 3번 선택문",
-                            "fourth": "수정할 4번 선택문"
-                        }
-                    }""",
+                            "number": "수정할 문항의 번호",
+                            "question": "수정할 문제",
+                            "answer": "수정할 정답",
+                            "type": "(1: 객관식, 2: OX문제)",
+                            "choices": {
+                                "first": "수정할 1번 선택문",
+                                "second": "수정할 2번 선택문",
+                                "third": "수정할 3번 선택문",
+                                "fourth": "수정할 4번 선택문"
+                            }
+                        }""",
             'in': 'json',
             'type': 'str',
             'required': True
