@@ -41,6 +41,14 @@ class Config:
             {
                 'name': 'SerialNumber',
                 'description': '플레이어가 게임에 참여할 때 사용되는 인증 코드를 발급하는 API'
+            },
+            {
+                'name': 'Status',
+                'description': '부스에 대한 정보를 실시간으로 전달하는 API'
+            },
+            {
+                'name': 'SetUp',
+                'description': '팀 설정, 게임 시작/종료 시간을 설정하는 API'
             }
         ]
     }

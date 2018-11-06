@@ -1,4 +1,5 @@
 from flask_restful import Resource
+from flask import jsonify
 from flasgger import swag_from
 
 from docs.booth import BOOTH_POST, BOOTH_GET, BOOTH_PUT
@@ -30,7 +31,7 @@ class Booth(Resource):
             }
         ]
 
-        return dummy_output
+        return jsonify(dummy_output)
 
     @swag_from(BOOTH_PUT)
     def put(self):

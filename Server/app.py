@@ -8,6 +8,7 @@ from view.problem import Problem
 from view.icon import Icon
 from view.authorization import Authorization, SignUp
 from view.serialNumber import SerialNumber
+from view.user import TeamSet, TimeSet
 
 
 def make_app() -> Flask:
@@ -22,5 +23,7 @@ def make_app() -> Flask:
     api.add_resource(Authorization, '/login')
     api.add_resource(SignUp, '/signup')
     api.add_resource(SerialNumber, '/session/new')  # 인증코드 발급 uri
+    api.add_resource(TeamSet, '/set-team')
+    api.add_resource(TimeSet, '/set-time')
 
     return app
