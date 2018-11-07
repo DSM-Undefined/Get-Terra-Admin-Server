@@ -1,7 +1,7 @@
 from flasgger import swag_from
 from flask_restful import Resource
 
-from docs.current import CURRENT_BOOTH_GET, CURRENT_RANKING_GET
+from docs.status import CURRENT_BOOTH_GET, CURRENT_RANKING_GET
 
 
 class CurrentBooth(Resource):
