@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flasgger import Swagger
+from mongoengine import connect
 
 from config import Config
 
@@ -9,6 +10,7 @@ def make_app() -> Flask:
     app: Flask = Flask(__name__)
     api: Api = Api(app)
     app.config.from_object(Config)
+    connect('localhost')    # 테스트시에는 Atlas 사용
     Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
 
     from view.booth import Booth

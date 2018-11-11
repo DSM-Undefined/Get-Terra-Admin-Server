@@ -1,3 +1,4 @@
+from flask import request
 from flasgger import swag_from
 from flask_restful import Resource
 
@@ -8,6 +9,11 @@ class Authorization(Resource):
 
     @swag_from(AUTHORIZATION_POST)
     def post(self):
+        payload = request.json
+        userId = payload['userId']
+        password = payload['password']
+
+
         pass
 
 

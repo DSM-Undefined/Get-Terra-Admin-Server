@@ -1,3 +1,4 @@
+from pymongo import MongoClient
 from flask_restful import Resource
 from flask import jsonify
 from flasgger import swag_from
