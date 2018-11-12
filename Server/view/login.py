@@ -7,6 +7,7 @@ from docs.authorization import LOGIN_POST, SIGN_UP_POST
 from model.user import UserModel
 
 
+# 어드민 로그인
 class Login(Resource):
 
     @swag_from(LOGIN_POST)
@@ -14,9 +15,6 @@ class Login(Resource):
         payload = request.json
         userID_ = payload['userId']
         PW_ = payload['password']
-
-        for user in UserModel.objects:
-            print(user)
 
         if UserModel.objects(userId=userID_, password=PW_):
             return {
@@ -27,19 +25,19 @@ class Login(Resource):
             return abort(401)
 
 
+# 어드민 회원가입
 class SignUp(Resource):
 
     @swag_from(SIGN_UP_POST)
     def post(self):
         payload = request.json
-        userID_ = payload['userId']
+        ID_ = payload['userId']
         PW_ = payload['password']
-        email_ = payload['email']
 
-        if UserModel.objects(userId=userID_):
-            return Response('중복된 ID', 204)
+        if UserModel.objects(userId=ID_).first():
+            return {"status": "The ID already exists."}, 409
 
-        UserModel(userId=userID_, password=PW_, email=email_, userType=2).save()
+        UserModel(userId=ID_, password=PW_, userType=2).save()
 
         return Response('회원가입 성공', 201)
 

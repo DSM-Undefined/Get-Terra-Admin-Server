@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
@@ -12,6 +13,7 @@ def make_app() -> Flask:
     api: Api = Api(app)
     app.config.from_object(Config)
     jwt = JWTManager(app)
+    CORS(app)
     connect(host="mongodb://by09115:by09115123@ds151970.mlab.com:51970/get-terra")    # 테스트시에는 mlab 사용
     Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
 
@@ -32,7 +34,8 @@ def make_app() -> Flask:
     api.add_resource(SerialNumber, '/session/new')  # 인증코드 발급 uri
     api.add_resource(SerialCheck, '/session/check')  # 인증코드 확인 uri(ONLY_USER_APP)
 
-    from view.user import TeamSet, TimeSet
+    from view.setUp import TeamSet, TimeSet, GameSet
+    api.add_resource(GameSet, '/set-game')
     api.add_resource(TeamSet, '/set-team')
     api.add_resource(TimeSet, '/set-time')
 

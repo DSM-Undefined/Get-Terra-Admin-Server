@@ -22,7 +22,7 @@ class UserModel(Document):
     )
 
     email = StringField(
-        required=True
+        required=False
     )
 
     password = StringField(

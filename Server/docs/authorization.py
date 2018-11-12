@@ -25,18 +25,17 @@ SIGN_UP_POST = {
     'description': '어드민 계정 회원가입',
     'parameters': [
         param('userId', "user's ID"),
-        param('password', "비밀번호"),
-        param('email', "이메일")
+        param('password', "비밀번호")
     ],
     'responses': {
         '201': {
             'description': "회원가입 성공"
         },
-        '204': {
-            'description': "중복된 계정 감지"
-        },
         '401': {
             'description': "회원가입 도중 문제 발생"
+        },
+        '409': {
+            'description': "중복된 계정 감지"
         }
     }
 
