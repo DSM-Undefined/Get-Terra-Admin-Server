@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 
@@ -56,3 +57,6 @@ class Config:
     JSON_AS_ASCII = False
 
     started_point = datetime.now()
+
+    JWT_SECRET_KEY = os.getenv('SECRET_KEY', 'INEEDMORESPEED')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'INEEDMORESPEED')

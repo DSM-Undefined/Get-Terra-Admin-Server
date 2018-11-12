@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from mongoengine import connect
 
@@ -10,14 +11,15 @@ def make_app() -> Flask:
     app: Flask = Flask(__name__)
     api: Api = Api(app)
     app.config.from_object(Config)
-    connect('localhost')    # 테스트시에는 Atlas 사용
+    jwt = JWTManager(app)
+    connect(host="mongodb://by09115:by09115123@ds151970.mlab.com:51970/get-terra")    # 테스트시에는 mlab 사용
     Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
 
     from view.booth import Booth
     api.add_resource(Booth, '/booth')
 
-    from view.authorization import Authorization, SignUp
-    api.add_resource(Authorization, '/login')
+    from view.login import Login, SignUp
+    api.add_resource(Login, '/login')
     api.add_resource(SignUp, '/signup')
 
     from view.problem import Problem

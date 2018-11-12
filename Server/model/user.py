@@ -14,7 +14,6 @@ class UserModel(Document):
 
     game = ReferenceField(
         document_type=GameModel,
-        required=True,
         reverse_delete_rule=CASCADE
     )
 
@@ -31,8 +30,7 @@ class UserModel(Document):
     )
 
     team = ReferenceField(
-        document_type='TeamModel',
-        required=True
+        document_type='TeamModel'
     )
 
     # 유저타입 관련( 1: 플레이어 | 2: 어드민 )
