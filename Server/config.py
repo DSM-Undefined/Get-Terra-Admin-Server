@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Config:
@@ -60,3 +60,6 @@ class Config:
 
     JWT_SECRET_KEY = os.getenv('SECRET_KEY', 'INEEDMORESPEED')
     SECRET_KEY = os.getenv('SECRET_KEY', 'INEEDMORESPEED')
+
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=1)

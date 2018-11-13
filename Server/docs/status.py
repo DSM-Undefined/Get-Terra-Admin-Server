@@ -1,5 +1,14 @@
 CURRENT_BOOTH_GET = {
     'tags': ['Status'],
+    'parameters': [
+        {
+            'name': 'jwt_header',
+            'description': 'JWT',
+            'in': 'header',
+            'type': 'str',
+            'required': True
+        }
+    ],
     'description': '현재 부스를 어떤 팀이 점령하고 있는지 표시',
     'responses': {
         '201': {

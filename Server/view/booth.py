@@ -1,8 +1,9 @@
 from flask_restful import Resource
-from flask import Request
+from flask import request
 from flasgger import swag_from
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+from model.game import GameModel
 from model.booth import BoothModel
 from docs.booth import BOOTH_POST, BOOTH_GET, BOOTH_PUT
 
@@ -13,13 +14,13 @@ class Booth(Resource):
     @jwt_required
     @swag_from(BOOTH_POST)
     def post(self):
-        payload = Request.json
+        payload = request.json
         game_ = payload['game']
         name_ = payload['boothName']
         next_time_ = payload['nextCaptureTime']
 
-        BoothModel(game=game_, boothName=name_, nextCaptureTime=next_time_, owner=get_jwt_identity())
-        return {"status": "Successfully inserted booth information."}
+        BoothModel(game=game_, boothName=name_, nextCaptureTime=next_time_).save()
+        return {"status": "Successfully inserted problem information."}
 
     @jwt_required
     @swag_from(BOOTH_GET)
@@ -29,11 +30,11 @@ class Booth(Resource):
             "booth_name": booth.Name,
             "own_team": booth.ownTeam,
             "next_time": booth.nextCaptureTime
-        } for booth in BoothModel.objects(owner=get_jwt_identity())]
+        } for booth in BoothModel.objects(game=GameModel.objects(owner=get_jwt_identity()))]
 
     @swag_from(BOOTH_PUT)
     def put(self):
-        payload = Request.json
+        payload = request.json
         game_ = payload['game']
         name_ = payload['boothName']
         own_ = payload['ownTeam']
