@@ -55,11 +55,7 @@ class Config:
     }
 
     JSON_AS_ASCII = False
-
-    started_point = datetime.now()
-
-    JWT_SECRET_KEY = os.getenv('SECRET_KEY', 'INEEDMORESPEED')
-    SECRET_KEY = os.getenv('SECRET_KEY', 'INEEDMORESPEED')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'Nerd-Bear')
 
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=1)
