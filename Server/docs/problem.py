@@ -3,13 +3,13 @@ from docs import param, n_param
 PROBLEM_GET = {
     'tags': ['Problem'],
     'description': '전체 문항 반환',
-    'parameters': {
+    'parameters': [{
         'name': 'jwt_header',
         'description': 'JWT',
         'in': 'header',
         'type': 'str',
         'required': True
-    },
+    }],
     'responses': {
         '201': {
             'description': '문항 반환 성공',

@@ -1,9 +1,8 @@
 import os
 import zipfile
 import qrcode
-# pillow 설
+# pillow 설치 필요
 
-from flask import send_from_directory
 from flasgger import swag_from
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
