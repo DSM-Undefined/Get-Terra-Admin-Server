@@ -36,8 +36,8 @@ class SignUp(Resource):
         payload = request.json
         ID_ = payload['userId']
         PW_ = payload['password']
-        start_ = payload['start']   # '%Y-%m-%d %H:%M:%S' 형식
-        end_ = payload['end']       # '%Y-%m-%d %H:%M:%S' 형식
+        start_ = '2018-10-10 10:10:10'   # '%Y-%m-%d %H:%M:%S' 형식
+        end_ = '2018-12-25 10:10:10'       # '%Y-%m-%d %H:%M:%S' 형식
 
         if AdminUserModel.objects(userId=ID_).first():
             return {"status": "The ID already exists."}, 409
