@@ -11,10 +11,12 @@ from config import Config
 def make_app() -> Flask:
     app: Flask = Flask(__name__)
     api: Api = Api(app)
+
     app.config.from_object(Config)
-    jwt = JWTManager(app)
+    JWTManager(app)
     CORS(app)
-    connect(host="mongodb://by09115:by09115123@ds151970.mlab.com:51970/get-terra")    # 테스트시에는 mlab 사용
+
+    connect('get-terra')    # 테스트시에는 mlab 사용
     Swagger(app, template=app.config['SWAGGER_TEMPLATE'])
 
     from view.booth import Booth
