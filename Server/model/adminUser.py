@@ -9,7 +9,7 @@ class AdminUserModel(Document):
     """
 
     meta = {
-        'collection': 'user'
+        'collection': 'adminUser'
     }
 
     game = ReferenceField(

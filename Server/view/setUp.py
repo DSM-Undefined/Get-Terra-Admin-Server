@@ -43,7 +43,7 @@ class TeamSet(Resource):
             game=game_,
             teamId=create_team_key(),
             teamColor=color_
-        )
+        ).save()
 
 
 class TimeSet(Resource):

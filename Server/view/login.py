@@ -1,10 +1,13 @@
+from datetime import datetime
 from flask import request, abort, Response
 from flasgger import swag_from
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
 
+from . import create_game_key
 from docs.authorization import LOGIN_POST, SIGN_UP_POST
 from model.adminUser import AdminUserModel
+from model.game import GameModel
 
 
 # 어드민 로그인
@@ -33,11 +36,19 @@ class SignUp(Resource):
         payload = request.json
         ID_ = payload['userId']
         PW_ = payload['password']
+        start_ = payload['start']   # '%Y-%m-%d %H:%M:%S' 형식
+        end_ = payload['end']       # '%Y-%m-%d %H:%M:%S' 형식
 
         if AdminUserModel.objects(userId=ID_).first():
             return {"status": "The ID already exists."}, 409
 
-        AdminUserModel(userId=ID_, password=PW_).save()
+        game = GameModel(
+            gameKey=create_game_key(),
+            start_time=datetime.strptime(start_, '%Y-%m-%d %H:%M:%S'),
+            end_time=datetime.strptime(end_, '%Y-%m-%d %H:%M:%S'),
+            teamCount=4
+        ).save()
+        AdminUserModel(game=game.id, userId=ID_, password=PW_).save()
 
         return Response('회원가입 성공', 201)
 
