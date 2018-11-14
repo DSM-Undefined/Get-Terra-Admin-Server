@@ -17,6 +17,7 @@ class Booth(Resource):
     @swag_from(BOOTH_POST)
     def post(self):
         edits_ = request.json['edits']  # boothName
+        print(edits_)
         game_ = AdminUserModel.objects(userId=get_jwt_identity()).first()['game']
 
         for array in edits_:
