@@ -6,57 +6,22 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from . import create_game_key, create_team_key
 from model.team import TeamModel
+from model.adminUser import AdminUserModel
 from model.game import GameModel
-from docs.setUp import TEAM_POST, TIME_SET_POST
-
-
-class GameSet(Resource):
-
-    @jwt_required
-    def post(self):
-        payload = request.json
-        name_ = payload['name']
-
-        if GameModel.objects(gameName=name_).first():
-            return {"status": "The game name has already exists."}
-
-        GameModel(
-            gameKey=create_game_key(),
-            gameName=name_,
-            teamCount=12,
-            owner=get_jwt_identity()
-        ).save()
-
-        return {"status": "success"}, 201
-
-
-class TeamSet(Resource):
-
-    @jwt_required
-    @swag_from(TEAM_POST)
-    def post(self):
-        payload = request.json
-        game_ = payload['game']
-        color_ = payload['color']
-
-        TeamModel(
-            game=game_,
-            teamId=create_team_key(),
-            teamColor=color_
-        ).save()
+from docs.setUp import TEAM_POST, TIME_SET_PUT
 
 
 class TimeSet(Resource):
 
     @jwt_required
-    @swag_from(TIME_SET_POST)
+    @swag_from(TIME_SET_PUT)
     def put(self):
         payload = request.json
         key_ = payload['gameKey']
         start_ = payload['start']
         end_ = payload['end']
 
-        if not GameModel.objects(gameKey=key_).first():
+        if not AdminUserModel.objects(userId=get_jwt_identity(), game=key_).first():
             return {"status": "Key does not exist."}
 
         GameModel.objects(gameKey=key_).update_one(

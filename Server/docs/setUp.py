@@ -23,9 +23,13 @@ TEAM_POST = {
     }
 }
 
-TIME_SET_POST = {
+TIME_SET_PUT = {
     'tags': ['SetUp'],
     'description': '게임 시작, 종료 시간 설정',
+    'parameters': [
+        param('start', '시작 시간'),
+        param('end', '종료 시간')
+    ],
     'responses': {
         '201': {
             'description': '정보 전달 성공'

@@ -32,13 +32,10 @@ def make_app() -> Flask:
     from view.icon import Icon
     api.add_resource(Icon, '/icon')
 
-    from view.serialNumber import SerialCheck, SerialNumber
+    from view.serialNumber import SerialNumber
     api.add_resource(SerialNumber, '/session/new')  # 인증코드 발급 uri
-    api.add_resource(SerialCheck, '/session/check')  # 인증코드 확인 uri(ONLY_USER_APP)
 
-    from view.setUp import TeamSet, TimeSet, GameSet
-    api.add_resource(GameSet, '/set-game')
-    api.add_resource(TeamSet, '/set-team')
+    from view.setUp import TimeSet
     api.add_resource(TimeSet, '/set-time')
 
     from view.status import CurrentBooth, CurrentRanking

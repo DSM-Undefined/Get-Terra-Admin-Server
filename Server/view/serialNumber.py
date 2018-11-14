@@ -16,21 +16,3 @@ class SerialNumber(Resource):
         user_self = AdminUserModel.objects(userId=get_jwt_identity()).first()
         if user_self:
             return {"serial_number": user_self['game'].id}
-
-
-class SerialCheck(Resource):
-
-    @swag_from(SERIAL_CHECK_POST)
-    def post(self):
-        num_ = request.json['serialCode']
-        user = AdminUserModel.objects(game=num_).first()
-        return user['game']
-        game = GameModel.objects(gameKey=user['game'].id)
-        if not user:
-            return {"status": "serial code does not exist."}
-        else:
-            return {
-                "startTime": GameModel.objects(),
-                "endTime": str(GameModel.objects(gameKey=user['game']).first()),
-                "teamCount": GameModel.objects(gameKey=user['game']).first()
-            }, 201

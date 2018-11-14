@@ -1,3 +1,5 @@
+import sys
+
 from flask_restful import Resource
 from flask import request, Response, jsonify, abort
 from flasgger import swag_from
@@ -17,8 +19,8 @@ class Booth(Resource):
     @swag_from(BOOTH_POST)
     def post(self):
         edits_ = request.json['edits']  # boothName
-        print('====================[REQUESTS]====================')
-        print(edits_)
+        print('====================[REQUESTS]====================', file=sys.stderr)
+        print(edits_, file=sys.stderrls)
         game_ = AdminUserModel.objects(userId=get_jwt_identity()).first()['game']
 
         for array in edits_:
@@ -37,27 +39,3 @@ class Booth(Resource):
             "bootName": booth.boothName,
             "ownTeam": booth.ownTeam
         } for booth in BoothModel.objects(game=admin_)])
-
-    @jwt_required
-    @swag_from(BOOTH_PUT)
-    def put(self):
-        edits_ = request.json['edits']
-        game = AdminUserModel.objects(userId=get_jwt_identity()).first()['game']
-
-        for r in edits_:
-
-            if r['boothName'] and BoothModel.objects():
-
-                if r['game']:
-                    BoothModel.objects(boothName=r['boothName']).update_one(set__game=r['game'])
-
-                if r['ownTeam']:
-                    BoothModel.objects(boothName=r['boothName']).update_one(set__ownTeam=r['ownTeam'])
-
-                if r['nextCaptureTime']:
-                    BoothModel.objects(boothName=r['boothName']).update_one(set__nextCaptureTime=r['nextCaptureTime'])
-
-                return {"status": "Successfully changed booth information."}, 201
-
-            else:
-                return {"status": "No booths to modify"}, 204
