@@ -28,10 +28,12 @@ BOOTH_GET = {
         '201': {
             'description': '부스 목록 반환 성공',
             'examples': {
-                "game": "게임 정보 반환",
-                "boothName": "부스 이름",
-                "ownTeam": "부스를 점령한 팀",
-                "nextCaptureTime": "NEXT_CAPTURE_TIME"
+                "": {
+                    "game": "게임 정보 반환",
+                     "boothName": "부스 이름",
+                     "ownTeam": "부스를 점령한 팀",
+                     "nextCaptureTime": "NEXT_CAPTURE_TIME"
+                     }
             }
         },
         '401': {

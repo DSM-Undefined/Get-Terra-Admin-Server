@@ -14,7 +14,6 @@ class UserModel(Document):
 
     game = ReferenceField(
         document_type=GameModel,
-        required=True,
         reverse_delete_rule=CASCADE
     )
 
@@ -22,15 +21,6 @@ class UserModel(Document):
         primary_key=True
     )
 
-    email = StringField(
-        required=True
-    )
-
     password = StringField(
-        required=True
-    )
-
-    team = ReferenceField(
-        document_type='TeamModel',
         required=True
     )
