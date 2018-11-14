@@ -22,7 +22,7 @@ class TimeSet(Resource):
         user = AdminUserModel.objects(userId=get_jwt_identity()).first()
 
         GameModel(
-            gameKey=int(user['game']),
+            gameKey=user['game'].id,
             start_time=datetime.strptime(start_, '%Y-%m-%d %H:%M:%S'),
             end_time=datetime.strptime(end_, '%Y-%m-%d %H:%M:%S'),
             teamCount=4
