@@ -20,17 +20,17 @@ class Booth(Resource):
         next_time_ = payload['nextCaptureTime']
 
         BoothModel(game=game_, boothName=name_, nextCaptureTime=next_time_).save()
-        return {"status": "Successfully inserted problem information."}
+        return {"status": "Successfully inserted problem information."}, 201
 
     @jwt_required
     @swag_from(BOOTH_GET)
     def get(self):
         return [{
             "game": booth.game,
-            "booth_name": booth.Name,
-            "own_team": booth.ownTeam,
-            "next_time": booth.nextCaptureTime
-        } for booth in BoothModel.objects(game=GameModel.objects(owner=get_jwt_identity()))]
+            "bootName": booth.Name,
+            "ownTeam": booth.ownTeam,
+            "nextTime": booth.nextCaptureTime
+        } for booth in BoothModel.objects(game=GameModel.objects(owner=get_jwt_identity()))], 201
 
     @swag_from(BOOTH_PUT)
     def put(self):
