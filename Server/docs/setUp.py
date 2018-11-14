@@ -10,7 +10,7 @@ TEAM_POST = {
             'required': True
         },
         param('teamId', '팀 ID'),
-        param('teamColor', '팀 색상')
+        param('teamColor', '팀 색상 | 색상 예시: #')
     ],
     'description': '팀 설정',
     'responses': {

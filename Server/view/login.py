@@ -37,7 +37,7 @@ class SignUp(Resource):
         if AdminUserModel.objects(userId=ID_).first():
             return {"status": "The ID already exists."}, 409
 
-        AdminUserModel(userId=ID_, password=PW_, userType=2).save()
+        AdminUserModel(userId=ID_, password=PW_).save()
 
         return Response('회원가입 성공', 201)
 

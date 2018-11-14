@@ -13,7 +13,7 @@ def make_app() -> Flask:
     api: Api = Api(app)
 
     app.config.from_object(Config)
-    JWTManager(app)
+    jwt = JWTManager(app)
     CORS(app)
 
     connect('get-terra')    # 테스트시에는 mlab 사용

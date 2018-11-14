@@ -34,10 +34,10 @@ PROBLEM_POST = {
     'tags': ['Problem'],
     'description': '문항 정보 입력',
     'parameters': [
-        param('game', '게임'),
-        param('type', '문항 종류'),
-        param('content', '문제'),
-        param('answer', '정답'),
+        param('edits', '수정할 내용, 필시 아래 항목들을 리스트에 넣어서 보낼 것'),
+        n_param('game', '게임'),
+        n_param('content', '문제'),
+        n_param('answer', '정답'),
         n_param('choices', '선택지')
     ],
     'responses': {

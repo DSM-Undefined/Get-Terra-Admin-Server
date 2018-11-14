@@ -55,6 +55,7 @@ class Config:
     }
 
     JSON_AS_ASCII = False
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'Nerd-Bear')
     SECRET_KEY = os.getenv('SECRET_KEY', 'Nerd-Bear')
 
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)

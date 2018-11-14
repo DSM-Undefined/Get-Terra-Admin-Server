@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from model.game import GameModel
 from model.booth import BoothModel
+from model.adminUser import AdminUserModel
 from docs.booth import BOOTH_POST, BOOTH_GET, BOOTH_PUT
 
 
@@ -14,39 +15,37 @@ class Booth(Resource):
     @jwt_required
     @swag_from(BOOTH_POST)
     def post(self):
-        payload = request.json
-        game_ = payload['game']
-        name_ = payload['boothName']
-        next_time_ = payload['nextCaptureTime']
+        edits_ = request.json['edits']   # boothName
 
-        BoothModel(game=game_, boothName=name_, nextCaptureTime=next_time_).save()
+        for array in edits_:
+            BoothModel(
+                boothName=array['boothName']
+            ).save()
+
         return {"status": "Successfully inserted problem information."}, 201
 
     @jwt_required
     @swag_from(BOOTH_GET)
     def get(self):
+        admin = AdminUserModel.objects(userId=get_jwt_identity()).first()
         return [{
             "game": booth.game,
-            "bootName": booth.Name,
-            "ownTeam": booth.ownTeam,
-            "nextTime": booth.nextCaptureTime
-        } for booth in BoothModel.objects(game=GameModel.objects(owner=get_jwt_identity()))], 201
+            "bootName": booth.boothName,
+            "ownTeam": booth.ownTeam
+        } for booth in BoothModel.objects(game=admin['game'])], 201
 
     @swag_from(BOOTH_PUT)
     def put(self):
-        payload = request.json
-        game_ = payload['game']
-        name_ = payload['boothName']
-        own_ = payload['ownTeam']
-        next_time_ = payload['nextCaptureTime']
+        edits_ = request.json['edits']
 
-        if name_ and (game_ or own_ or next_time_):
-            if game_:
-                BoothModel.objects(boothName=name_).update_one(set__game=game_)
-            if own_:
-                BoothModel.objects(boothName=name_).update_one(set__ownTeam=own_)
-            if next_time_:
-                BoothModel.objects(boothName=name_).update_one(set__nextCaptureTime=next_time_)
+        for r in edits_:
+            if r['boothName'] and (r['game'] or r['ownTeam'] or r['nextCaptureTime']):
+                if r['game']:
+                    BoothModel.objects(boothName=r['boothName']).update_one(set__game=r['game'])
+                if r['ownTeam']:
+                    BoothModel.objects(boothName=r['boothName']).update_one(set__ownTeam=r['ownTeam'])
+                if r['nextCaptureTime']:
+                    BoothModel.objects(boothName=r['boothName']).update_one(set__nextCaptureTime=r['nextCaptureTime'])
 
             return {"status": "Successfully changed booth information."}, 201
         else:

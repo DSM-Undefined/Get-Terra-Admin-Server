@@ -4,9 +4,8 @@ BOOTH_POST = {
     'tags': ['Booth'],
     'description': '부스 정보 입력',
     'parameters': [
-        param('game', '게임 정보'),
-        param('boothName', '부스 이름'),
-        n_param('nextCaptureTime', 'NEXT_CAPTURE_TIME')
+        param('edits', '수정할 내용, 필시 아래 항목들을 리스트에 넣어서 보낼 것'),
+        n_param('boothName', '부스 이름')
     ],
     'responses': {
         '201': {
@@ -28,12 +27,12 @@ BOOTH_GET = {
         '201': {
             'description': '부스 목록 반환 성공',
             'examples': {
-                "": {
+                "": [{
                     "game": "게임 정보 반환",
                      "boothName": "부스 이름",
                      "ownTeam": "부스를 점령한 팀",
                      "nextCaptureTime": "NEXT_CAPTURE_TIME"
-                     }
+                     }]
             }
         },
         '401': {
@@ -46,7 +45,8 @@ BOOTH_PUT = {
     'tags': ['Booth'],
     'description': '부스 정보 수정(edit)',
     'parameters': [
-        param('boothName', '수정할 부스의 이름(이름은 변경 불가)'),
+        param('edits', '수정할 내용, 필시 아래 항목들을 리스트에 넣어서 보낼 것(boothName 필수)'),
+        n_param('boothName', '수정할 부스의 이름(이름은 변경 불가)'),
         n_param('game', "게임 정보 변경"),
         n_param('ownTeam', '부스를 점령한 팀 변경'),
         n_param('nextCaptureTime', 'NEXT_CAPTURE_TIME 변경')

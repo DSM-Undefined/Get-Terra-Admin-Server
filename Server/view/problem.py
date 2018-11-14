@@ -15,24 +15,20 @@ class Problem(Resource):
     @jwt_required
     @swag_from(PROBLEM_POST)
     def post(self):
-        payload = request.json
-        game_ = payload['game']
-        type_ = payload['type']
-        content_ = payload['content']
-        answer_ = payload['answer']
-        choices_ = payload['choices']
+        edits_ = request.json['edits']
 
-        if ProblemModel.objects(content=content_).first():
-            return {'status': 'This Question does already exist.'}, 409
+        for r in edits_:
+            if ProblemModel.objects(content=r['content']).first():
+                return {'exist': r['content']}, 409
 
-        ProblemModel(
-            game=game_,
-            problemId=create_problem_key(),
-            problemType=type_,
-            content=content_,
-            answer=answer_,
-            choices=choices_
-        ).save()
+            ProblemModel(
+                game=r['game'],
+                problemId=create_problem_key(),
+                content=r['content'],
+                answer=r['answer'],
+                choices=r['choices']
+            ).save()
+
         return {"status": "Successfully inserted booth information."}, 201
 
     @jwt_required
@@ -42,7 +38,6 @@ class Problem(Resource):
         return [{
             "game": problem.game,
             "problemId": problem.Name,
-            "problemType": problem.ownTeam,
             "content": problem.nextCaptureTime,
             "answer": problem.answer,
             "choices": problem.choices
@@ -54,7 +49,6 @@ class Problem(Resource):
         payload = request.json
         game_ = payload['game']
         problem_id_ = payload['problemId']
-        type_ = payload['type']
         content_ = payload['content']
         answer_ = payload['answer']
         choices_ = payload['choices']
@@ -62,11 +56,9 @@ class Problem(Resource):
         if ProblemModel.objects(content=content_).first():
             return {'status': 'This Question does already exist.'}, 409
 
-        elif problem_id_ and (game_ or type_ or content_ or answer_ or choices_):
+        elif problem_id_ and (game_ or content_ or answer_ or choices_):
             if game_:
                 ProblemModel.objects(problemId=problem_id_).update_one(set__game=game_)
-            if type_:
-                ProblemModel.objects(problemId=problem_id_).update_one(set__type=type_)
             if content_:
                 ProblemModel.objects(problemId=problem_id_).update_one(set__content=content_)
             if answer_:
