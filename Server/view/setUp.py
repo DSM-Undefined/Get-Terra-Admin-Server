@@ -17,16 +17,15 @@ class TimeSet(Resource):
     @swag_from(TIME_SET_PUT)
     def put(self):
         payload = request.json
-        key_ = payload['gameKey']
         start_ = payload['start']
         end_ = payload['end']
+        user = AdminUserModel.objects(userId=get_jwt_identity()).first()
 
-        if not AdminUserModel.objects(userId=get_jwt_identity(), game=key_).first():
-            return {"status": "Key does not exist."}
-
-        GameModel.objects(gameKey=key_).update_one(
-            set__start_time=datetime.strptime(start_, '%Y-%m-%d %H:%M:%S'),
-            set__end_time=datetime.strptime(end_, '%Y-%m-%d %H:%M:%S')
-        )
+        GameModel(
+            gameKey=int(user['game']),
+            start_time=datetime.strptime(start_, '%Y-%m-%d %H:%M:%S'),
+            end_time=datetime.strptime(end_, '%Y-%m-%d %H:%M:%S'),
+            teamCount=4
+                  ).save()
 
         return {"status": "success"}, 201
