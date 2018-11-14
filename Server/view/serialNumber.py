@@ -13,9 +13,9 @@ class SerialNumber(Resource):
     @jwt_required
     @swag_from(SERIAL_NUMBER_GET)
     def get(self):
-        if AdminUserModel.objects(userId=get_jwt_identity()).first():
-            key = GameModel.objects(owner=get_jwt_identity()).first()
-            return {"serial_number": key.gameKey}
+        user_self = AdminUserModel.objects(userId=get_jwt_identity()).first()
+        if user_self:
+            return {"serial_number": user_self['game'].id}
 
 
 class SerialCheck(Resource):
