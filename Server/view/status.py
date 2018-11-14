@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from docs.status import CURRENT_BOOTH_GET, CURRENT_RANKING_GET
 
 from model.team import TeamModel
-from model.user import UserModel
+from model.adminUser import AdminUserModel
 from model.game import GameModel
 from model.booth import BoothModel
 
@@ -15,7 +15,7 @@ class CurrentBooth(Resource):
     @jwt_required
     @swag_from(CURRENT_BOOTH_GET)
     def get(self):
-        if UserModel.objects(userId=get_jwt_identity()):    # 유저가 회원가입되어 있으면
+        if AdminUserModel.objects(userId=get_jwt_identity()):    # 유저가 회원가입되어 있으면
             return [{
                 'boothName': booth.boothName,
                 'ownTeam': booth.ownTeam

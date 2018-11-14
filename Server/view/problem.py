@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from view import create_problem_key
 from model.problem import ProblemModel
-from model.user import UserModel
+from model.adminUser import AdminUserModel
 from model.game import GameModel
 from docs.problem import PROBLEM_GET, PROBLEM_POST, PROBLEM_PUT
 
@@ -38,7 +38,7 @@ class Problem(Resource):
     @jwt_required
     @swag_from(PROBLEM_GET)
     def get(self):
-        user = UserModel.objects(userId=get_jwt_identity()).first()
+        user = AdminUserModel.objects(userId=get_jwt_identity()).first()
         return [{
             "game": problem.game,
             "problemId": problem.Name,

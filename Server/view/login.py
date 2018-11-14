@@ -4,7 +4,7 @@ from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 from docs.authorization import LOGIN_POST, SIGN_UP_POST
-from model.user import UserModel
+from model.adminUser import AdminUserModel
 
 
 # 어드민 로그인
@@ -16,7 +16,7 @@ class Login(Resource):
         userID_ = payload['userId']
         PW_ = payload['password']
 
-        if UserModel.objects(userId=userID_, password=PW_):
+        if AdminUserModel.objects(userId=userID_, password=PW_):
             return {
                 'access_token': create_access_token(userID_),
                 'refresh_token': create_refresh_token(userID_)
@@ -34,10 +34,10 @@ class SignUp(Resource):
         ID_ = payload['userId']
         PW_ = payload['password']
 
-        if UserModel.objects(userId=ID_).first():
+        if AdminUserModel.objects(userId=ID_).first():
             return {"status": "The ID already exists."}, 409
 
-        UserModel(userId=ID_, password=PW_, userType=2).save()
+        AdminUserModel(userId=ID_, password=PW_, userType=2).save()
 
         return Response('회원가입 성공', 201)
 

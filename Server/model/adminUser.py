@@ -3,7 +3,7 @@ from mongoengine import *
 from model.game import GameModel
 
 
-class UserModel(Document):
+class AdminUserModel(Document):
     """
     사용자 정보 관련 Collection
     """
