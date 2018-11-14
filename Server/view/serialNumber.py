@@ -22,17 +22,15 @@ class SerialCheck(Resource):
 
     @swag_from(SERIAL_CHECK_POST)
     def post(self):
-        payload = request.json
-        num_ = payload['serialCode']
-
-        temp = GameModel.objects(gameKey=num_).first()
-        if not temp:
+        num_ = request.json['serialCode']
+        user = AdminUserModel.objects(game=num_).first()
+        return user['game']
+        game = GameModel.objects(gameKey=user['game'].id)
+        if not user:
             return {"status": "serial code does not exist."}
         else:
             return {
-                "startTime": str(temp.start_time),
-                "endTime": str(temp.end_time),
-                "owner": temp.owner,
-                "gameName": temp.gameName,
-                "teamCount": temp.teamCount
+                "startTime": GameModel.objects(),
+                "endTime": str(GameModel.objects(gameKey=user['game']).first()),
+                "teamCount": GameModel.objects(gameKey=user['game']).first()
             }, 201

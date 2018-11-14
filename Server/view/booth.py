@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import request, Response, jsonify
+from flask import request, Response, jsonify, abort
 from flasgger import swag_from
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -17,6 +17,7 @@ class Booth(Resource):
     @swag_from(BOOTH_POST)
     def post(self):
         edits_ = request.json['edits']  # boothName
+        print('====================[REQUESTS]====================')
         print(edits_)
         game_ = AdminUserModel.objects(userId=get_jwt_identity()).first()['game']
 
