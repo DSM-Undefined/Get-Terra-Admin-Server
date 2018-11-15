@@ -8,7 +8,7 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from docs.icon import ICON_GET
-from model.game import GameModel
+from model.adminUser import AdminUserModel
 from model.booth import BoothModel
 
 
@@ -17,7 +17,7 @@ class Icon(Resource):
     @jwt_required
     @swag_from(ICON_GET)
     def get(self):
-        game_ = GameModel.objects(owner=get_jwt_identity()).first()
+        game_ = AdminUserModel.objects(userId=get_jwt_identity()).first()['game']
         var = [qrcode.make(booth.boothName) for booth in BoothModel.objects(game=game_)]
         main_path = '/home/ubuntu/Get-Terra-Admin-Server/Server/static/zipFiles/'
         out_zip = zipfile.ZipFile(
