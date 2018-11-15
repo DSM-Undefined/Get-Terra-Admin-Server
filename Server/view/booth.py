@@ -25,17 +25,10 @@ class Booth(Resource):
             abort(401)
         else:
             for array in edits_:
-                if array['ownTeam']:
-                    BoothModel(
-                        game=game,
-                        boothName=array['boothName'],
-                        ownTeam=array['ownTeam']        # TeamModel.objects(teamId=array['ownTeam']).first().id
-                    ).save()
-                else:
-                    BoothModel(
-                        game=game,
-                        boothName=array['boothName']
-                    ).save()
+                BoothModel(
+                    game=game,
+                    boothName=array['boothName']
+                ).save()
 
             return {"status": "Successfully inserted problem information."}, 201
 
