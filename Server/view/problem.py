@@ -3,7 +3,7 @@ from flask_restful import Resource
 from flasgger import swag_from
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from view import create_problem_key
+from view import create_problem_key, uni_json
 from model.problem import ProblemModel
 from model.adminUser import AdminUserModel
 from model.game import GameModel
@@ -36,10 +36,10 @@ class Problem(Resource):
     @swag_from(PROBLEM_GET)
     def get(self):
         user = AdminUserModel.objects(userId=get_jwt_identity()).first()
-        return [{
-            "game": problem.game,
+        return uni_json([{
+            "game": problem.game.id,
             "problemId": problem.problemId,
             "content": problem.content,
             "answer": problem.answer,
             "choices": problem.choices
-        } for problem in ProblemModel.objects(game=user['game'])], 201
+        } for problem in ProblemModel.objects(game=user['game'])])

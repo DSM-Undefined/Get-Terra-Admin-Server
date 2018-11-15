@@ -4,6 +4,13 @@ BOOTH_POST = {
     'tags': ['Booth'],
     'description': '부스 정보 입력',
     'parameters': [
+        {
+            'name': 'Authorization',
+            'description': "헤더로 jwt 받아오기",
+            'in': 'header',
+            'type': 'str',
+            'required': True
+        },
         param('edits', '수정할 내용, 필시 아래 항목들을 리스트에 넣어서 보낼 것'),
         n_param('boothName', '부스 이름')
     ],
@@ -15,7 +22,7 @@ BOOTH_POST = {
             }
         },
         '401': {
-            'description': '업로드 도중 문제 발생'
+            'description': '자격 증명 실패'
         }
     }
 }
@@ -37,35 +44,6 @@ BOOTH_GET = {
         },
         '401': {
             'description': '반환 도중 문제 발생'
-        }
-    }
-}
-
-BOOTH_PUT = {
-    'tags': ['Booth'],
-    'description': '부스 정보 수정(edit)',
-    'parameters': [
-        param('edits', '수정할 내용, 필시 아래 항목들을 리스트에 넣어서 보낼 것(boothName 필수)'),
-        n_param('boothName', '수정할 부스의 이름(이름은 변경 불가)'),
-        n_param('game', "게임 정보 변경"),
-        n_param('ownTeam', '부스를 점령한 팀 변경'),
-        n_param('nextCaptureTime', 'NEXT_CAPTURE_TIME 변경')
-    ],
-    'responses': {
-        '201': {
-            'description': '부스 정보 수정 완료',
-            'example': {
-                "status": "Successfully changed booth information."
-            }
-        },
-        '204': {
-            'description': '수정 중 문제 발생',
-            'example': {
-                "status": "No booths to modify"
-            }
-        },
-        '405': {
-            'description': '잘못된 입력 정보'
         }
     }
 }

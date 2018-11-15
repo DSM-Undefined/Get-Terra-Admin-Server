@@ -15,15 +15,13 @@ class CurrentBooth(Resource):
     @jwt_required
     @swag_from(CURRENT_BOOTH_GET)
     def get(self):
-        if AdminUserModel.objects(userId=get_jwt_identity()):    # 유저가 회원가입되어 있으면
+        user = AdminUserModel.objects(userId=get_jwt_identity()).first()
+        if user:    # 유저가 회원가입되어 있으면
             return [{
                 'boothName': booth.boothName,
                 'ownTeam': booth.ownTeam
-            } for booth in BoothModel.objects(
-                game=GameModel.objects(
-                    owner=get_jwt_identity()
-                ).first()
-            )], 201                                         # 부스 점령 현황 반환(201)
+            } for booth in BoothModel.objects(game=user['game'].id)], 201
+            # 부스 점령 현황 반환(201)
 
 
 class CurrentRanking(Resource):
@@ -32,10 +30,11 @@ class CurrentRanking(Resource):
     @swag_from(CURRENT_RANKING_GET)
     def get(self):
         ret = []
-        game_ = GameModel.objects(owner=get_jwt_identity()).first()     # 게임 콜렉션 중에서 owner 가 userId 인 게임 찾기
-        total_ = len(BoothModel.objects(game=game_))    # user의 현재 게임 내에 있는 총 부스의 개수
-        for team in TeamModel.objects(game=game_):
-            # temp 는 team 이 점령한 부스의 개수를 지칭
+        user = AdminUserModel.objects(userId=get_jwt_identity()).first()
+
+        total_ = len(BoothModel.objects(game=user['game'].id))    # user의 현재 게임 내에 있는 총 부스의 개수
+        for team in TeamModel.objects(game=user['game'].id):
+            # temp 는 해당 team 이 점령한 부스의 개수를 지칭
             temp = len(BoothModel.objects(ownTeam=TeamModel.objects(teamId=team.teamId).first()))
             ret.append({
                 "teamId": team.teamId,

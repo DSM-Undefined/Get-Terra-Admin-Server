@@ -4,7 +4,7 @@ from flasgger import swag_from
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
 
-from . import create_game_key
+from . import create_game_key, create_team
 from docs.authorization import LOGIN_POST, SIGN_UP_POST
 from model.adminUser import AdminUserModel
 from model.game import GameModel
@@ -49,6 +49,8 @@ class SignUp(Resource):
             teamCount=4
         ).save()
         AdminUserModel(game=game.id, userId=ID_, password=PW_).save()
+        for i in range(0, 4):
+            create_team(game.id)
 
         return Response('회원가입 성공', 201)
 

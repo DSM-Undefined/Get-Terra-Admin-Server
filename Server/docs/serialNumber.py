@@ -25,35 +25,3 @@ SERIAL_NUMBER_GET = {
         }
     }
 }
-
-SERIAL_CHECK_POST = {
-    "tags": ['SerialNumber'],
-    'parameters': [
-        {
-            'name': 'serial_code',
-            'description': "인증 코드",
-            'in': 'json',
-            'type': 'str',
-            'required': True
-        }
-    ],
-    'description': "[ ONLY_APP | 인증 코드 확인(게임 정보 얻기) ]",
-    'responses': {
-        '201': {
-            'description': '인증 코드 확인 성공',
-            'example': {
-                "": {
-                    "game_number": "109284",
-                    "game_owner": "최이삭",
-                    "start_time": "2018-11-07 09:46:06.675760",
-                    "end_time": "2018-11-23 09:46:06.675760"}
-            }
-        },
-        '403': {
-            'description': '확인되지 않은 인증코드'
-        },
-        '401': {
-            'description': "인증 코드 확인 도중 문제 발생"
-        }
-    }
-}

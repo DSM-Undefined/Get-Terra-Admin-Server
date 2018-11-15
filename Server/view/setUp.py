@@ -1,14 +1,12 @@
 from datetime import datetime
-from flask import request
+from flask import request, Response
 from flasgger import swag_from
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from . import create_game_key, create_team_key
-from model.team import TeamModel
 from model.adminUser import AdminUserModel
 from model.game import GameModel
-from docs.setUp import TEAM_POST, TIME_SET_PUT
+from docs.setUp import TIME_SET_PUT
 
 
 class TimeSet(Resource):
@@ -17,14 +15,18 @@ class TimeSet(Resource):
     @swag_from(TIME_SET_PUT)
     def put(self):
         payload = request.json
-        start_ = payload['start']
-        end_ = payload['end']
+        start_ = datetime.strptime(payload['start'], '%Y-%m-%d %H:%M:%S')
+        end_ = datetime.strptime(payload['end'], '%Y-%m-%d %H:%M:%S')
+
+        if start_ < datetime.now() or end_ < datetime.now():
+            return Response('현재보다 오래된 시간을 감지했습니다. 다시 요청하세요.', 406)
+
         user = AdminUserModel.objects(userId=get_jwt_identity()).first()
 
         GameModel(
             gameKey=user['game'].id,
-            start_time=datetime.strptime(start_, '%Y-%m-%d %H:%M:%S'),
-            end_time=datetime.strptime(end_, '%Y-%m-%d %H:%M:%S'),
+            start_time=start_,
+            end_time=end_,
             teamCount=4
                   ).save()
 
