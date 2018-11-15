@@ -27,7 +27,8 @@ class Booth(Resource):
             for array in edits_:
                 BoothModel(
                     game=game,
-                    boothName=array['boothName']
+                    boothName=array['boothName'],
+                    ownTeam=0
                 ).save()
 
             return {"status": "Successfully inserted problem information."}, 201
@@ -38,6 +39,6 @@ class Booth(Resource):
         user = AdminUserModel.objects(userId=get_jwt_identity()).first()
         return uni_json([{
             "bootName": booth.boothName,
-            "ownTeam": TeamModel.objects(teamId=booth['ownTeam']).first().id
+            "ownTeam": TeamModel.objects(game=user.game, teamId=booth.ownTeam.teamId).first().teamId
             # "ownTeam": booth.ownTeam.id
         } for booth in BoothModel.objects(game=user['game'])])

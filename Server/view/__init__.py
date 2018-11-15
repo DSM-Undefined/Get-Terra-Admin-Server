@@ -47,9 +47,9 @@ def make_random_color():
     return '#' + str(key)
 
 
-def create_team(game):
+def create_team(game, teamId):
     TeamModel(
         game=game,
-        teamId=create_team_key(),
+        teamId=teamId,
         teamColor=make_random_color()
     ).save()

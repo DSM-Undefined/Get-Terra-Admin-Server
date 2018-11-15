@@ -49,8 +49,8 @@ class SignUp(Resource):
             teamCount=4
         ).save()
         AdminUserModel(game=game.id, userId=ID_, password=PW_).save()
-        for i in range(0, 4):
-            create_team(game.id)
+        for i in range(0, 5):
+            create_team(game.id, teamId=i)
 
         return Response('회원가입 성공', 201)
 

@@ -37,4 +37,4 @@ class Icon(Resource):
             zip.write(file_name, booth.boothName+'.svg', compress_type=zipfile.ZIP_DEFLATED)
         zip.close()
 
-        send_file(directory + 'qr.zip', mimetype='application/zip')
+        return send_file(directory + 'qr.zip', mimetype='application/zip')
