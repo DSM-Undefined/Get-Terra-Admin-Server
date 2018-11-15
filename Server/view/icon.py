@@ -19,11 +19,4 @@ class Icon(Resource):
     def get(self):
         game_ = AdminUserModel.objects(userId=get_jwt_identity()).first()['game']
         var = [qrcode.make(booth.boothName) for booth in BoothModel.objects(game=game_)]
-        main_path = '/home/ubuntu/Get-Terra-Admin-Server/Server/static/zipFiles/'
-        out_zip = zipfile.ZipFile(
-            main_path + '{}.zip'.format(get_jwt_identity()), 'w')
-
-        for image in var:
-            out_zip.write(main_path + str(image), image, compress_type=zipfile.ZIP_DEFLATED)
-
-        return out_zip
+        return var
