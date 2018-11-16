@@ -18,12 +18,13 @@ class CurrentBooth(Resource):
     @swag_from(CURRENT_BOOTH_GET)
     def get(self):
         user = AdminUserModel.objects(userId=get_jwt_identity()).first()
-        if user:    # 유저가 회원가입되어 있으면
-            return uni_json([{
-                'boothName': booth.boothName,
-                'ownTeam': booth['ownTeam'].teamColor,
-            } for booth in BoothModel.objects(game=user['game'])], 200)
-            # 부스 점령 현황 반환(201)
+        game = user.game
+        booth_list = BoothModel.objects(game=game)
+
+        return uni_json({'booths': [{
+            'boothName': booth.boothName,
+            'ownTeam': booth.ownTeam.teamColor
+        } for booth in booth_list]})
 
 
 class CurrentRanking(Resource):
@@ -45,10 +46,3 @@ class CurrentRanking(Resource):
             })
 
         return ret, 201     # for 문이 끝나고 ret 반환
-
-[
-    {
-        'boothName': '이름',
-        'ownTeam': '색깔'
-    }
-]

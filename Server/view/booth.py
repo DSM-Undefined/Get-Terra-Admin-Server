@@ -28,7 +28,7 @@ class Booth(Resource):
                 BoothModel(
                     game=game,
                     boothName=array['boothName'],
-                    ownTeam=0
+                    ownTeam=TeamModel.objects(teamId=0).first()
                 ).save()
 
             return {"status": "Successfully inserted problem information."}, 201
